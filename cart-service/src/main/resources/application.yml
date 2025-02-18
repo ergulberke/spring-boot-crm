@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: "cart-service"
+  data:
+    mongodb:
+      uri: mongodb://admin:test@localhost:27018/admin
+      database: mydatabase
+
+server:
+  port: 8082
