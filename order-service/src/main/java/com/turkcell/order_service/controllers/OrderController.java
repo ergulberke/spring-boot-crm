@@ -1,27 +1,29 @@
 package com.turkcell.order_service.controllers;
 
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import com.turkcell.order_service.client.ProductClient;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClient;
 
 @RestController
 @RequestMapping("/api/v1/order")
+@RequiredArgsConstructor
 public class OrderController {
 
-    private final RestClient restClient;
+    private final ProductClient productClient;
 
-    public OrderController(RestClient.Builder restClientBuilder){
-        restClient = restClientBuilder.baseUrl("http://localhost:8085").build();
+    public OrderController(ProductClient productClient) {
+        this.productClient = productClient;
     }
 
 
     @GetMapping
     public String get(){
-        String response = restClient.get().uri("/api/v1/product").retrieve().body(String.class);
-        System.out.println("Product Servisten Gelen Cevap: " + response);
-
+        String response = productClient.get();
+        System.out.println(response);
         return "Order Service.";
     }
 
